@@ -28,10 +28,11 @@ import java.util.Locale;
 
 public class MainActivity extends ActionBarActivity {
 
-    NfcAdapter nfcAdapter;
+    //Explicit
+    private NfcAdapter nfcAdapter;
+    private String tagNFCString;
+    private static final String TAG = "Suthep";
 
-    ToggleButton tglReadWrite;
-    EditText txtTagContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(nfctutorials.tutorial04.R.layout.activity_main);
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        tglReadWrite = (ToggleButton)findViewById(R.id.tglReadWrite);
-        txtTagContent = (EditText)findViewById(R.id.txtTagContent);
+
     }
 
     @Override
@@ -65,7 +65,7 @@ public class MainActivity extends ActionBarActivity {
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
             Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
 
-            if(tglReadWrite.isChecked())
+            if(true)
             {
                 Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 
@@ -78,7 +78,8 @@ public class MainActivity extends ActionBarActivity {
 
             }else{
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                NdefMessage ndefMessage = createNdefMessage(txtTagContent.getText()+"");
+                //NdefMessage ndefMessage = createNdefMessage(txtTagContent.getText()+"");
+                NdefMessage ndefMessage = createNdefMessage("");
 
                 writeNdefMessage(tag, ndefMessage);
             }
@@ -94,38 +95,18 @@ public class MainActivity extends ActionBarActivity {
 
             NdefRecord ndefRecord = ndefRecords[0];
 
-            String tagContent = getTextFromNdefRecord(ndefRecord);
+            tagNFCString = getTextFromNdefRecord(ndefRecord);
 
-            txtTagContent.setText(tagContent);
+           // txtTagContent.setText(tagNFCString);
+
+            Log.d(TAG, "NFC read ==> " + tagNFCString);
 
         }else
         {
             Toast.makeText(this, "No NDEF records found!", Toast.LENGTH_SHORT).show();
         }
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(nfctutorials.tutorial04.R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == nfctutorials.tutorial04.R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+    }   // readTextFromMessage
 
 
     private void enableForegroundDispatchSystem() {
@@ -237,9 +218,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public void tglReadWriteOnClick(View view){
-        txtTagContent.setText("");
-    }
 
 
     public String getTextFromNdefRecord(NdefRecord ndefRecord)
@@ -257,4 +235,4 @@ public class MainActivity extends ActionBarActivity {
         return tagContent;
     }
 
-}
+}   // Main Class
