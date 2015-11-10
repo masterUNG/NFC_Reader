@@ -24,6 +24,8 @@ public class ManageTABLE {
     public static final String COLUMN_NAME = "Name";
     public static final String COLUMN_LOCATION = "Location";
     public static final String COLUMN_STATUS = "Status";
+    public static final String COLUMN_DATE = "Date";
+    public static final String COLUMN_COMMENT = "Comment";
 
 
     public ManageTABLE(Context context) {
@@ -47,13 +49,15 @@ public class ManageTABLE {
         return writeSqLiteDatabase.insert(TABLE_USER, null, objContentValues);
     }
 
-    public long addDevice(String strTAGNFC, String strName, String strLocation, String strStatus) {
+    public long addDevice(String strTAGNFC, String strName, String strLocation, String strStatus, String strDate, String strComment) {
 
         ContentValues objContentValues = new ContentValues();
         objContentValues.put(COLUMN_TAGNFC, strTAGNFC);
         objContentValues.put(COLUMN_NAME, strName);
         objContentValues.put(COLUMN_LOCATION, strLocation);
         objContentValues.put(COLUMN_STATUS, strStatus);
+        objContentValues.put(COLUMN_DATE, strDate);
+        objContentValues.put(COLUMN_COMMENT, strComment);
 
         return writeSqLiteDatabase.insert(TABLE_DEVICE, null, objContentValues);
     }

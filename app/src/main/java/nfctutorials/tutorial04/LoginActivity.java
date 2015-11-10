@@ -24,7 +24,16 @@ public class LoginActivity extends ActionBarActivity {
         //Delete All Data
         deleteAllData();
 
+        //Synchronize JSON to SQLite
+        synJSONtoSQLite();
+
     }   // Main Method
+
+    private void synJSONtoSQLite() {
+
+
+
+    }   // synJSONtoSQLite
 
     private void deleteAllData() {
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase("golf.db", MODE_PRIVATE, null);
@@ -35,7 +44,7 @@ public class LoginActivity extends ActionBarActivity {
     private void testerAddValue() {
 
         objManageTABLE.addUser("testUser", "testPass", "testOfficer", "testPermission");
-        objManageTABLE.addDevice("testTAG", "testName", "testLocation", "testStatus");
+        objManageTABLE.addDevice("testTAG", "testName", "testLocation", "testStatus", "testDate", "testComment");
 
     }
 
