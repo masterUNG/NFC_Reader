@@ -26,6 +26,7 @@ public class LoginActivity extends ActionBarActivity {
     private ManageTABLE objManageTABLE;
     private EditText userEditText, passwordEditText;
     private String userString, passwordString;
+    private MyDialog objMyDialog;
 
 
     @Override
@@ -35,6 +36,9 @@ public class LoginActivity extends ActionBarActivity {
 
         //Bind Widget
         bindWidget();
+
+        //Inheriate Class
+        objMyDialog = new MyDialog();
 
         //Connected Database
         objManageTABLE = new ManageTABLE(this);
@@ -59,6 +63,8 @@ public class LoginActivity extends ActionBarActivity {
         if (userString.equals("") || passwordString.equals("") ) {
 
             //Have Space
+            objMyDialog.errorDialog(LoginActivity.this, "Have Space", "Please Fill All Bland");
+
 
         } else {
 
