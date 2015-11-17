@@ -5,6 +5,8 @@ import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -22,6 +24,8 @@ public class LoginActivity extends ActionBarActivity {
 
     //Explicit
     private ManageTABLE objManageTABLE;
+    private EditText userEditText, passwordEditText;
+    private String userString, passwordString;
 
 
     @Override
@@ -29,19 +33,46 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //Bind Widget
+        bindWidget();
+
         //Connected Database
         objManageTABLE = new ManageTABLE(this);
 
         //Tester Add Value
-        //testerAddValue();
+        testerAddValue();
 
         //Delete All Data
-        deleteAllData();
+       // deleteAllData();
 
         //Synchronize JSON to SQLite
-        synJSONtoSQLite();
+      //  synJSONtoSQLite();
 
     }   // Main Method
+
+    public void clickLogin(View view) {
+
+        userString = userEditText.getText().toString().trim();
+        passwordString = passwordEditText.getText().toString().trim();
+
+        //Check Zero
+        if (userString.equals("") || passwordString.equals("") ) {
+
+            //Have Space
+
+        } else {
+
+            //No Space
+
+        }
+
+    }
+
+
+    private void bindWidget() {
+        userEditText = (EditText) findViewById(R.id.edtLoginUser);
+        passwordEditText = (EditText) findViewById(R.id.edtLoginPassword);
+    }
 
     private void synJSONtoSQLite() {
 
@@ -117,7 +148,7 @@ public class LoginActivity extends ActionBarActivity {
                             String strPassword = object.getString("Password");
                             String strOfficer = object.getString("Officer");
                             String strPermission = object.getString("Permission");
-                            objManageTABLE.addUser(strUser, strPassword, strOfficer, strPermission);
+                         //   objManageTABLE.addUser(strUser, strPassword, strOfficer, strPermission);
 
                             break;
                         case 2:
@@ -129,7 +160,7 @@ public class LoginActivity extends ActionBarActivity {
                             String strStatus = object.getString("Status");
                             String strDate = object.getString("Date");
                             String strComment = object.getString("Comment");
-                            objManageTABLE.addDevice(strTAGnfc, strName, strLocation, strStatus, strDate, strComment);
+                         //   objManageTABLE.addDevice(strTAGnfc, strName, strLocation, strStatus, strDate, strComment);
 
                             break;
                     }
@@ -157,8 +188,9 @@ public class LoginActivity extends ActionBarActivity {
 
     private void testerAddValue() {
 
-        objManageTABLE.addUser("testUser", "testPass", "testOfficer", "testPermission");
-        objManageTABLE.addDevice("testTAG", "testName", "testLocation", "testStatus", "testDate", "testComment");
+        objManageTABLE.addUser("testFirst", "testLast", "testUser", "testPassword", "testUserType");
+        objManageTABLE.addDevice("testTAG", "testName", "testLocation", "testStatus");
+        objManageTABLE.addAssign("testUserID", "testDeviceID", "testAssignDate", "testCheckStatus", "testComment");
 
     }
 
