@@ -40,13 +40,13 @@ public class LoginActivity extends ActionBarActivity {
         objManageTABLE = new ManageTABLE(this);
 
         //Tester Add Value
-        testerAddValue();
+        //testerAddValue();
 
         //Delete All Data
-       // deleteAllData();
+          deleteAllData();
 
         //Synchronize JSON to SQLite
-      //  synJSONtoSQLite();
+          synJSONtoSQLite();
 
     }   // Main Method
 
@@ -81,7 +81,7 @@ public class LoginActivity extends ActionBarActivity {
         StrictMode.setThreadPolicy(myPolicy);
 
         int intTimes = 1;
-        while (intTimes <= 2) {
+        while (intTimes <= 3) {
 
             //1. Create InputStream
             InputStream objInputStream = null;
@@ -89,6 +89,7 @@ public class LoginActivity extends ActionBarActivity {
             HttpPost objHttpPost = null;
             String strUrluserTABLE = "http://swiftcodingthai.com/golf/php_get_data_golf.php";
             String strUrldeviceTABLE = "http://swiftcodingthai.com/golf/php_get_data_device.php";
+            String strUrlassignTABLE = "http://swiftcodingthai.com/golf/php_get_assign_golf.php";
 
             try {
 
@@ -100,6 +101,9 @@ public class LoginActivity extends ActionBarActivity {
                         break;
                     case 2:
                         objHttpPost = new HttpPost(strUrldeviceTABLE);
+                        break;
+                    case 3:
+                        objHttpPost = new HttpPost(strUrlassignTABLE);
                         break;
                 }
 
@@ -144,23 +148,31 @@ public class LoginActivity extends ActionBarActivity {
                         case 1:
 
                             //For userTABLE
+                            String strFirstName = object.getString("Firstname");
+                            String strLastName = object.getString("Lastname");
                             String strUser = object.getString("User");
                             String strPassword = object.getString("Password");
-                            String strOfficer = object.getString("Officer");
-                            String strPermission = object.getString("Permission");
-                         //   objManageTABLE.addUser(strUser, strPassword, strOfficer, strPermission);
+                            String strUserType = object.getString("UserType");
+                            objManageTABLE.addUser(strFirstName, strLastName, strUser, strPassword, strUserType);
 
                             break;
                         case 2:
 
-                            //For deviceTABLE
-                            String strTAGnfc = object.getString("tagNFC");
+                            //for deviceTABLE
+                            String strTagNFC = object.getString("tagNFC");
                             String strName = object.getString("Name");
                             String strLocation = object.getString("Location");
                             String strStatus = object.getString("Status");
-                            String strDate = object.getString("Date");
-                            String strComment = object.getString("Comment");
-                         //   objManageTABLE.addDevice(strTAGnfc, strName, strLocation, strStatus, strDate, strComment);
+                            objManageTABLE.addDevice(strTagNFC, strName, strLocation, strStatus);
+
+                            break;
+                        case 3:
+                            String strUserID = object.getString("User_id");
+                            String strDeviceID = object.getString("device_id");
+                            String strAssigeDate = object.getString("Assigned_date");
+                            String strCheckStatus = object.getString("checkStatus");
+                            String strComment = object.getString("comment");
+                            objManageTABLE.addAssign(strUserID, strDeviceID, strAssigeDate, strCheckStatus, strComment);
 
                             break;
                     }
@@ -184,6 +196,7 @@ public class LoginActivity extends ActionBarActivity {
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase("golf.db", MODE_PRIVATE, null);
         objSqLiteDatabase.delete("userTABLE", null, null);
         objSqLiteDatabase.delete("deviceTABLE", null, null);
+        objSqLiteDatabase.delete("assignTABLE", null, null);
     }
 
     private void testerAddValue() {
